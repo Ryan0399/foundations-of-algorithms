@@ -1,0 +1,243 @@
+In this section we tell a few words about KUVA's options.
+
+Remember that you can interrupt texture computation by typing Ctrl-C,
+then the current texture is displayed before the process ends.
+
+Another hidden function is the "stop & go", when holding the mouse's
+left button on the image while computing the texture.
+
+The general syntax is
+$ ./kuva [input image] [options]
+
+You can display the options list by entering only
+$ ./kuva
+
+The options can be divided into several classes:
+
+
+2.1. COST FUNCTIONS
+
+The article describes two cost functions, we implemented both of them,
+defaultly using the second. Then enter -C1 to use the basic function.
+
+
+2.2 PLACEMENT ALGORITHM
+
+Three very different algorithms are available to place the patch on
+the texture, before finding seams:
+
+    * Random placement ( -P1 )
+	     The faster algorithm, gives good result for homogenous
+	     textures.
+
+    * Entire patch matchin ( -P2 )
+	     The slower algorithm, the best for complex and structured
+	     textures.  
+
+    * Subpatch matching ( -P3 , default algorithm )
+	     A balance between the two previous algorithms, faster
+	     than -P2 but do not fit too complex images.
+
+
+2.3 OUTPUT TYPE
+
+If you choosed to save the output image on disk, by entering the -o
+option, you can also specify an image format, with the options -BMP
+(default), -JPG, or -PNG.
+
+Note that you need Imagemagick to use other image formats than BMP.
+
+
+2.4 TRANSFORMATIONS
+
+Before placing the patch on the output image, you can apply some
+transformations to increase the diversity of the texture, when the
+image allows it:
+
+      
+    * Mirror ( -m )
+	     To apply a random mirror effect.
+
+    * Rotate ( -r )
+	     To apply a random rotation.
+
+
+2.5 OTHER OPTIONS
+
+We present here some examples of parameters for the example patches,
+so as to figure out which algorithm fits for which texture type.
+
+
+    * -C n
+	Set the reduction coefficient applyed to edges cost
+	(default: 20).
+
+    * -cx n
+	Set the texture width to n times the image's (default: 3).
+
+    * -cy n
+	Set the texture height to n times image's (default: 3).
+
+    * -h 
+        Display the help informations.
+
+    * -o f
+	Save output image on disk under the given name (do not give
+	extension).
+
+    * -pc
+        Set initial patch position to the top-left corner.
+
+    * -pr
+        Randomly set the initial patch position (default).
+
+    * -ra n
+        Set the minimal overlap ratio.
+
+    * -re n
+        Process to n refinement steps after the whole texture is
+        filled. 
+
+    * -sr
+        Automatically switch to a faster placement algorithm when no
+        advance in the texture synthesis.
+
+    * -v
+        Set verbose mode.
+
+
+
+3. EXAMPLES
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+$ ./kuva img/lobelia.gif
+
+Here we use all default parameters, the subpatch matching fits well
+for this image, which is too heterogenous for random placement, but is
+diversified enough to have a good result with this algorithm.
+
+
+$ ./kuva img/ecrous.gif -cx 2 -cy 2 -P2 -re 1
+
+This image is quite difficult, there is a clear structure, and we can
+easily see discontinuities, that's why we prefer the entire patch
+matching. here we want a not too large image, and also ask for a final
+refinement step.
+
+
+$ ./kuva img/carpet.jpg -P1 -r -C1
+
+The carpet.jpg image is random enough to use the random placement, in
+addition we add diversity by applying random rotation, and use the
+faster basic functions, since we won't perceive any improvement here
+by using -C2.
+
+
+$ ./kuva img/freshblueberries.gif -o blueberries -PNG -pc
+
+We specify here an output image and a format (PNG), hence the final
+texture will be saved in the current directory as bluesberries.png. We
+also ask KUVA to set the initial patch at the top-left corner.
+
+
+在这个部分中，我们介绍了一些关于KUVA选项的内容。
+
+请记住，您可以通过键入Ctrl-C来中断纹理计算，然后在进程结束之前显示当前纹理。
+
+另一个隐藏的功能是“停止和继续”，当在计算纹理时按住鼠标左键时。
+
+一般的语法是
+$ ./kuva [输入图像] [选项]
+
+您可以通过仅输入
+$ ./kuva
+来显示选项列表
+
+选项可以分为几类：
+
+2.1.成本函数
+
+文章描述了两个成本函数，我们都实现了它们，默认使用第二个。然后输入-C1使用基本函数。
+
+2.2放置算法
+
+在找到接缝之前，有三种非常不同的算法可用于将补丁放置在纹理上：
+
+*随机放置（-P1）
+    更快的算法，适用于均匀的纹理。
+
+*整个补丁匹配（-P2）
+    更慢的算法，适用于复杂和结构化的纹理。
+
+*子补丁匹配（-P3，默认算法）
+    介于前两个算法之间的平衡，比-P2更快，但不适合太复杂的图像。
+2.3输出类型
+
+如果您选择将输出图像保存在磁盘上，可以通过输入-o选项指定图像格式，包括-BMP（默认），-JPG或-PNG。
+
+请注意，您需要Imagemagick才能使用除BMP以外的其他图像格式。
+
+2.4转换
+
+在将补丁放置在输出图像上之前，如果图像允许，您可以应用一些转换来增加纹理的多样性：
+
+*镜像（-m）
+    应用随机镜像效果。
+
+*旋转（-r）
+    应用随机旋转。
+2.5其他选项
+
+我们在这里提供一些示例参数，以便了解哪种算法适用于哪种纹理类型。
+
+*-C n
+    设置应用于边缘成本的缩减系数（默认值：20）。
+
+*-cx n
+    将纹理宽度设置为图像的n倍（默认值：3）。
+
+*-cy n
+    将纹理高度设置为图像的n倍（默认值：3）。
+
+*-h
+    显示帮助信息。
+
+*-o f
+    将输出图像保存在给定名称的磁盘上（不要给出扩展名）。
+
+*-pc
+    将初始补丁位置设置为左上角。
+
+*-pr
+    随机设置初始补丁位置（默认）。
+
+*-ra n
+    设置最小重叠比率。
+
+*-re n
+    在填充整个纹理后进行n个细化步骤。
+
+*-sr
+    当纹理合成没有进展时，自动切换到更快的放置算法。
+
+*-v
+    设置详细模式。
+3.示例
+
+
+$ ./kuva img/lobelia.gif
+
+在这里，我们使用所有默认参数，子补丁匹配适用于这个图像，它对于随机放置来说过于异质，但是使用这个算法可以得到良好的结果。
+
+$ ./kuva img/ecrous.gif -cx 2 -cy 2 -P2 -re 1
+
+这张图片相当困难，有明显的结构，我们可以很容易地看到不连续性，这就是为什么我们更喜欢整个补丁匹配。在这里，我们希望得到一个不太大的图像，并要求进行最后的细化步骤。
+
+$ ./kuva img/carpet.jpg -P1 -r -C1
+
+carpet.jpg图像足够随机，可以使用随机放置，此外，我们通过应用随机旋转来增加多样性，并使用更快的基本函数，因为在这里使用-C2不会感知到任何改进。
+
+$ ./kuva img/freshblueberries.gif -o blueberries -PNG -pc
+
+我们在这里指定了一个输出图像和一个格式（PNG），因此最终纹理将保存在当前目录中作为bluesberries.png。我们还要求KUVA将初始补丁设置在左上角。
